@@ -68,22 +68,22 @@ class MainActivity : AppCompatActivity() {
         binding.rbMainToCuerrencyDollar.tag = Currency.DOLLAR
         binding.rbMainToCuerrencyEuro.tag = Currency.EURO
         binding.rbMainToCuerrencyPound.tag = Currency.POUND
-        
-        binding.btnMain.setOnClickListener {toFromCuerrency()}
+
+        binding.btnMain.setOnClickListener { toFromCuerrency() }
     }
 
     private fun toFromCuerrency() {
         var valueInEditText = binding.etxtMainAmount.text.toString().toDouble()
-
-         valueInEditText = fromCuerrencyCoinValue.toDollar(valueInEditText)
-
+        valueInEditText = fromCuerrencyCoinValue.toDollar(valueInEditText)
         valueInEditText = toCuerrencyCoinValue.fromDollar(valueInEditText)
 
         hideSoftKeyboard(binding.root)
 
-        Toast.makeText(this,
-           String.format("%.2f", valueInEditText),
-            Toast.LENGTH_SHORT).show();
+        Toast.makeText(
+            this,
+            String.format("%.2f", valueInEditText),
+            Toast.LENGTH_SHORT
+        ).show();
     }
 
     private fun setupInitialState() {
@@ -105,11 +105,11 @@ class MainActivity : AppCompatActivity() {
     ) {
 
         var tag = changeCoinSelect(radioGroup, selectedRadioButton).tag
-        fromCuerrencyCoinValue =  tag as Currency
+        fromCuerrencyCoinValue = tag as Currency
 
         imageView.setImageDrawable(getDrawable(fromCuerrencyCoinValue.drawableResId))
 
-        for(i in 0 until binding.rgMainToCuerrency.childCount) {
+        for (i in 0 until binding.rgMainToCuerrency.childCount) {
             var hijo: RadioButton = binding.rgMainToCuerrency.getChildAt(i) as RadioButton
 
             hijo.isEnabled = tag != hijo.tag
@@ -127,11 +127,11 @@ class MainActivity : AppCompatActivity() {
 
         imageView.setImageDrawable(getDrawable(toCuerrencyCoinValue.drawableResId))
 
-        for(i in 0 until binding.rgMainFromCuerrency.childCount) {
+        for (i in 0 until binding.rgMainFromCuerrency.childCount) {
             var hijo: RadioButton = binding.rgMainFromCuerrency.getChildAt(i) as RadioButton
 
             hijo.isEnabled = tag != hijo.tag
-            
+
         }
     }
 
