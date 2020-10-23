@@ -3,6 +3,8 @@ package es.iessaladillo.pedrojoya.exchange
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -38,6 +40,15 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupViews() {
+
+        // Acción cuando el usuario cambie el foco a EditText que controla el nombre.
+        binding.etxtMainAmount.setOnFocusChangeListener { v, hasFocus ->
+            changeTextViewColorIf(
+                hasFocus,
+                binding.txtMainAmount,
+            )
+        }
+
         etxtAmountTextWatcher = binding.etxtMainAmount.doAfterTextChanged { s ->
             validAmount(
                 s.toString(),
@@ -69,21 +80,46 @@ class MainActivity : AppCompatActivity() {
         binding.rbMainToCuerrencyEuro.tag = Currency.EURO
         binding.rbMainToCuerrencyPound.tag = Currency.POUND
 
-        binding.btnMain.setOnClickListener { toFromCuerrency() }
+        binding.btnMain.setOnClickListener {
+            hideSoftKeyboard(binding.root)
+            toFromCuerrency()
+        }
+
+        binding.etxtMainAmount.setOnEditorActionListener { _, actionId: Int, _ ->
+           if(actionId == EditorInfo.IME_ACTION_DONE) {
+               toFromCuerrency()
+               false
+           } else {
+               true
+           }
+        }
     }
 
-    private fun toFromCuerrency() {
-        var valueInEditText = binding.etxtMainAmount.text.toString().toDouble()
-        valueInEditText = fromCuerrencyCoinValue.toDollar(valueInEditText)
-        valueInEditText = toCuerrencyCoinValue.fromDollar(valueInEditText)
+    private fun changeTextViewColorIf(hasFocus: Boolean, viewToModify: TextView) {
+        if(hasFocus) {
+            viewToModify.setTextColor(resources.getColor(R.color.pink_200))
+        } else {
+            viewToModify.setTextColor(resources.getColor(R.color.design_default_color_on_primary))
+        }
+    }
 
-        hideSoftKeyboard(binding.root)
+    private fun toFromCuerrency(){
+
+        var valueInEditText = binding.etxtMainAmount.text.toString().toDouble()
+        var valueInEditTextConverted = fromCuerrencyCoinValue.toDollar(valueInEditText)
+        valueInEditTextConverted = toCuerrencyCoinValue.fromDollar(valueInEditTextConverted)
 
         Toast.makeText(
             this,
-            String.format("%.2f", valueInEditText),
+            String.format(
+                "%.2f %s = %.2f %s",
+                valueInEditText,
+                fromCuerrencyCoinValue.symbol,
+                valueInEditTextConverted,
+                toCuerrencyCoinValue.symbol
+            ),
             Toast.LENGTH_SHORT
-        ).show();
+        ).show()
     }
 
     private fun setupInitialState() {

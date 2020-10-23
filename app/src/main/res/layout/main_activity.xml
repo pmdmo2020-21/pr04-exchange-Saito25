@@ -23,7 +23,8 @@
         android:gravity="end"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
-        android:text="@string/etxt_main_amount_default">
+        android:text="@string/etxt_main_amount_default"
+        android:imeOptions="actionDone">
         <requestFocus/>
     </EditText>
 
