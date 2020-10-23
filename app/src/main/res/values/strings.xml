@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Exchange</string>
+    <string name="txt_main_amount">Amount</string>
+    <string name="etxt_main_amount_default">0</string>
+    <string name="rb_main_fromCuerrency_dolar">Dollar</string>
+    <string name="rb_main_fromCuerrency_euro">Euro</string>
+    <string name="rb_main_fromCuerrency_pound">Pound</string>
+    <string name="im_main_fromCuerrency_image_description">Signo de la moneda seleccionada actualmente</string>
+    <string name="txt_main_fromCuerrency">From cuerrency</string>
+    <string name="txt_main_toCuerrency">To cuerrency</string>
+    <string name="btn_main_exchange">Exchange</string>
 </resources>
